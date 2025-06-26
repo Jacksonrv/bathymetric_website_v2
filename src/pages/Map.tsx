@@ -23,7 +23,7 @@ const Map: React.FC = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
-    fetch('/bathymetry.json')
+    fetch(`${import.meta.env.BASE_URL}bathymetry.json`)
       .then((res) => res.json())
       .then((data) => {
         const zLand: number[][] = data.z.map((row: number[]) =>
@@ -34,7 +34,7 @@ const Map: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetch('/samples.json')
+    fetch(`${import.meta.env.BASE_URL}samples.json`)
       .then((res) => res.json())
       .then((data) => setSamples(data));
   }, []);
@@ -130,8 +130,15 @@ const Map: React.FC = () => {
   }), []);
 
   const handleInitialized = (_figure: any, graphDiv: any) => {
+    const getImagePath = (rawPath: string | undefined): string | null => {
+      if (!rawPath) return null;
+      const trimmed = rawPath.startsWith('/') ? rawPath.slice(1) : rawPath;
+      return `${import.meta.env.BASE_URL}${trimmed}`;
+    };
+
     graphDiv.on('plotly_hover', (event: any) => {
-      const image = event.points?.[0]?.customdata?.[0];
+      const rawImage = event.points?.[0]?.customdata?.[0];
+      const image = getImagePath(rawImage);
       if (!lockedImage) setImageSrc(image);
     });
 
@@ -140,7 +147,8 @@ const Map: React.FC = () => {
     });
 
     graphDiv.on('plotly_click', (event: any) => {
-      const image = event.points?.[0]?.customdata?.[0];
+      const rawImage = event.points?.[0]?.customdata?.[0];
+      const image = getImagePath(rawImage);
       const pointIndex = event.points?.[0]?.pointIndex;
 
       if (typeof pointIndex === 'number') {
@@ -159,7 +167,6 @@ const Map: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
-      {/* Top text section */}
       <div
         style={{
           padding: '1rem',
@@ -174,7 +181,6 @@ const Map: React.FC = () => {
         </p>
       </div>
 
-      {/* Main content */}
       <div
         style={{
           display: 'flex',
@@ -183,7 +189,6 @@ const Map: React.FC = () => {
           overflow: 'hidden',
         }}
       >
-        {/* Plot */}
         <div
           style={{
             flexBasis: isMobile ? '100%' : '60%',
@@ -195,7 +200,6 @@ const Map: React.FC = () => {
           }}
         >
           {bathy ? (
-            //@ts-ignore
             <Plot
               data={data}
               layout={layout}
@@ -209,7 +213,6 @@ const Map: React.FC = () => {
           )}
         </div>
 
-        {/* Image Preview */}
         <div
           style={{
             flexBasis: isMobile ? '100%' : '40%',
@@ -220,10 +223,11 @@ const Map: React.FC = () => {
             justifyContent: 'center',
             alignItems: 'center',
             overflow: 'hidden',
+            order: isMobile ? 1 : 0,
           }}
         >
           <img
-            src={lockedImage || imageSrc || '/ba_images/ba_base.png'}
+            src={lockedImage || imageSrc || `${import.meta.env.BASE_URL}ba_images/ba_base.png`}
             alt="Sample Preview"
             style={{
               width: '100%',
@@ -238,7 +242,6 @@ const Map: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Info */}
       <div
         style={{
           padding: '1rem',
