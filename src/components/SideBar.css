@@ -1,0 +1,64 @@
+/* === Sidebar Layout === */
+.sidebar {
+  background-color: black!important;
+  color: white;
+  padding: 1rem;
+  min-height: 100vh;
+  width: 220px;
+}
+
+/* Remove list default styles */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* List item spacing */
+.sidebar li {
+  margin-bottom: 1.2rem;
+}
+
+/* Links and buttons */
+.sidebar a,
+.sidebar button {
+  color: white;
+  background: none;
+  border: none;
+  text-decoration: none;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  transition: color 0.2s ease;
+}
+
+/* Hover effect */
+.sidebar a:hover,
+.sidebar button:hover {
+  color: #ccc;
+}
+
+.sidebar li {
+  margin-bottom: 1.2rem;
+  position: relative; /* if you're doing dropdown positioning later */
+}
+
+/* Ensure submenu (dropdown container) is aligned */
+.submenu {
+  margin: 0;
+  padding: 0;
+  border-left: none;
+  list-style: none;
+}
+
+/* Align submenu items consistently */
+.submenu li {
+  margin: 0.6rem 0;
+  padding-left: 0; /* or set to a value if you want indentation */
+}
+
+.submenu {
+  margin-left: -1.2rem; /* use if you need to cancel out the parent LI spacing */
+}
