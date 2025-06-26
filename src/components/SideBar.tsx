@@ -2,17 +2,26 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './SideBar.css';
 
-const Sidebar: React.FC = () => {
+
+type SidebarProps = {
+  closeSidebar?: () => void;
+};
+
+const Sidebar: React.FC<SidebarProps> = ({ closeSidebar }) => {
   const [showPlots, setShowPlots] = useState(false);
+
+  const handleClick = () => {
+    if (closeSidebar) closeSidebar();
+  };
 
   return (
     <nav className="sidebar">
       <ul>
         <li>
-          <Link to="/About">About</Link>
+          <Link to="/About" onClick={handleClick}>About</Link>
         </li>
         <li>
-          <Link to="/map">Map</Link>
+          <Link to="/map" onClick={handleClick}>Map</Link>
         </li>
         <li>
           <button onClick={() => setShowPlots(!showPlots)}>
@@ -20,8 +29,8 @@ const Sidebar: React.FC = () => {
           </button>
           {showPlots && (
             <ul className="submenu">
-              <li><Link to="/Plots/Barium">Plot 1</Link></li>
-              <li><Link to="/Plots/TempProxy">Plot 2</Link></li>
+              <li><Link to="/Plots/Barium" onClick={handleClick}>Plot 1</Link></li>
+              <li><Link to="/Plots/TempProxy" onClick={handleClick}>Plot 2</Link></li>
             </ul>
           )}
         </li>
