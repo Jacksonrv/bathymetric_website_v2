@@ -20,6 +20,7 @@ const Map: React.FC = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [lockedImage, setLockedImage] = useState<string | null>(null);
   const [selectedPointIndex, setSelectedPointIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     fetch('/bathymetry.json')
@@ -38,6 +39,12 @@ const Map: React.FC = () => {
       .then((data) => setSamples(data));
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const data = useMemo(() => {
     if (!bathy) return [];
 
@@ -51,7 +58,7 @@ const Map: React.FC = () => {
       cmin: Math.min(...bathy.c.flat().filter((v) => !isNaN(v))),
       cmax: Math.max(...bathy.c.flat().filter((v) => !isNaN(v))),
       colorbar: {
-        title: {text: 'Chlorophyll'},
+        title: { text: 'Chlorophyll' },
         x: -0.15,
         len: 0.75,
         tickvals: bathy.colorbar?.tickvals,
@@ -150,104 +157,99 @@ const Map: React.FC = () => {
     });
   };
 
-return (
-  <div
-    style={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      width: '100%',
-    }}
-  >
-    {/* Top text section */}
-    <div
-      style={{
-        padding: '1rem',
-        backgroundColor: '#f8f8f8',
-        borderBottom: '1px solid #ccc',
-      }}
-    >
-      <h2>Bathymetric Map</h2>
-      <p>Hover over the map to preview sample images on the right.</p>
-    </div>
-
-    {/* Main content: map + image side-by-side */}
-    <div
-      style={{
-        display: 'flex',
-        flex: 1, // fill available space
-        overflow: 'hidden',
-      }}
-    >
-      {/* Plot (50%) */}
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
+      {/* Top text section */}
       <div
         style={{
-          flexBasis: '60%',
-          flexShrink: 0,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          overflow: 'hidden',
+          padding: '1rem',
+          backgroundColor: '#f8f8f8',
+          borderBottom: '1px solid #ccc',
         }}
       >
-        {bathy ? (
-          <Plot
-            data={data}
-            layout={layout}
-            useResizeHandler
-            style={{ width: '100%', height: '100%' }}
-            onInitialized={handleInitialized}
-            config={{ scrollZoom: true }}
-          />
-        ) : (
-          <p>Loading bathymetry...</p>
-        )}
+        <h2>Bathymetric Map</h2>
+        <p>
+          Hover over the map to preview sample images
+          {isMobile ? ' below.' : ' on the right.'}
+        </p>
       </div>
 
-      {/* Image Preview (30%) */}
+      {/* Main content */}
       <div
         style={{
-          flexBasis: '40%',
-          flexShrink: 0,
-          padding: '10px',
-          boxSizing: 'border-box',
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          flexDirection: isMobile ? 'column' : 'row',
+          flex: 1,
           overflow: 'hidden',
         }}
       >
-        <img
-          src={lockedImage || imageSrc || '/ba_images/ba_base.png'}
-          alt="Sample Preview"
+        {/* Plot */}
+        <div
           style={{
-            width: '100%',
-            height: 'auto',
-            maxWidth: '100%',
-            maxHeight: '100%',
-            objectFit: 'contain',
-            border: '2px solid black',
-            boxSizing: 'border-box',
+            flexBasis: isMobile ? '100%' : '60%',
+            flexShrink: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            overflow: 'hidden',
           }}
-        />
+        >
+          {bathy ? (
+            //@ts-ignore
+            <Plot
+              data={data}
+              layout={layout}
+              useResizeHandler
+              style={{ width: '100%', height: '100%' }}
+              onInitialized={handleInitialized}
+              config={{ scrollZoom: true }}
+            />
+          ) : (
+            <p>Loading bathymetry...</p>
+          )}
+        </div>
+
+        {/* Image Preview */}
+        <div
+          style={{
+            flexBasis: isMobile ? '100%' : '40%',
+            flexShrink: 0,
+            padding: '10px',
+            boxSizing: 'border-box',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            overflow: 'hidden',
+          }}
+        >
+          <img
+            src={lockedImage || imageSrc || '/ba_images/ba_base.png'}
+            alt="Sample Preview"
+            style={{
+              width: '100%',
+              height: 'auto',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              objectFit: 'contain',
+              border: '2px solid black',
+              boxSizing: 'border-box',
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Bottom Info */}
+      <div
+        style={{
+          padding: '1rem',
+          backgroundColor: '#f0f0f0',
+          borderTop: '1px solid #ccc',
+        }}
+      >
+        <p>This is additional information, controls, or status output.</p>
       </div>
     </div>
-
-    {/* Bottom box (footer/info/controls/etc.) */}
-    <div
-      style={{
-        padding: '1rem',
-        backgroundColor: '#f0f0f0',
-        borderTop: '1px solid #ccc',
-      }}
-    >
-      <p>This is additional information, controls, or status output.</p>
-    </div>
-  </div>
-);
-
-
-
+  );
 };
 
 export default Map;
