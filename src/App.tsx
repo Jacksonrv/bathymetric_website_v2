@@ -27,39 +27,39 @@ function App() {
 
       <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
         {/* Sidebar */}
-        {(!isMobile || sidebarOpen) && (
-          <div
-            style={{
-              position: isMobile ? 'absolute' : 'relative',
-              zIndex: 1000,
-              width: isMobile ? '100vw' : '220px',
-              height: isMobile ? '100vh' : '100%',
-              backgroundColor: '#111',
-              color: 'white',
-              transition: 'transform 0.3s ease-in-out',
-            }}
-          >
-            <Sidebar closeSidebar={() => setSidebarOpen(false)} />
-            {isMobile && (
-              <button
-                onClick={() => setSidebarOpen(false)}
-                style={{
-                  position: 'absolute',
-                  top: 10,
-                  right: 10,
-                  background: 'white',
-                  color: '#111',
-                  border: 'none',
-                  padding: '0.5rem',
-                  cursor: 'pointer',
-                  zIndex: 1001,
-                }}
-              >
-                ✕
-              </button>
-            )}
-          </div>
-        )}
+        <div
+          style={{
+            position: isMobile ? 'absolute' : 'relative',
+            zIndex: 1000,
+            width: isMobile ? '100vw' : '220px',
+            height: isMobile ? '100vh' : '100%',
+            backgroundColor: '#111',
+            color: 'white',
+            transition: 'transform 0.3s ease-in-out',
+            transform: isMobile && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)',
+          }}
+        >
+          <Sidebar closeSidebar={() => setSidebarOpen(false)} />
+          {isMobile && (
+            <button
+              onClick={() => setSidebarOpen(false)}
+              style={{
+                position: 'absolute',
+                top: 10,
+                right: 10,
+                background: 'white',
+                color: '#111',
+                border: 'none',
+                padding: '0.5rem',
+                cursor: 'pointer',
+                zIndex: 1001,
+              }}
+            >
+              ✕
+            </button>
+          )}
+        </div>
+
 
         {/* Main Content */}
         <div style={{ flex: 1, position: 'relative' }}>
