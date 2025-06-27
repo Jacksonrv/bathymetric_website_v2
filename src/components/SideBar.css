@@ -22,10 +22,8 @@
 /* Links and buttons */
 .sidebar a,
 .sidebar button {
+  all: unset; /* Reset button styles completely */
   color: white;
-  background: none;
-  border: none;
-  text-decoration: none;
   font-size: 1.1rem;
   display: flex;
   align-items: center;
@@ -33,6 +31,7 @@
   width: 100%;
   transition: color 0.2s ease;
 }
+
 
 /* Hover effect */
 .sidebar a:hover,
@@ -46,19 +45,22 @@
 }
 
 /* Ensure submenu (dropdown container) is aligned */
-.submenu {
-  margin: 0;
-  padding: 0;
-  border-left: none;
-  list-style: none;
+.submenu li {
+  margin-bottom: 0.6rem;
+  padding-left: 1.5rem; /* or use margin-left if you prefer */
 }
 
-/* Align submenu items consistently */
 .submenu li {
   margin: 0.6rem 0;
-  padding-left: 0; /* or set to a value if you want indentation */
+  padding-left: 1rem; /* Enough space for the dash */
+  display: flex;
+  align-items: center; /* This ensures vertical alignment */
 }
 
-.submenu {
-  margin-left: -1.2rem; /* use if you need to cancel out the parent LI spacing */
+.submenu li::before {
+  content: "–";
+  color: #ccc;
+  margin-right: 0.5rem;
+  display: inline-block;
+  line-height: 1;
 }

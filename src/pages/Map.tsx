@@ -23,6 +23,10 @@ const Map: React.FC = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
+    document.title = 'Bathymetric Map';
+  }, []);
+
+  useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}bathymetry.json`)
       .then((res) => res.json())
       .then((data) => {
