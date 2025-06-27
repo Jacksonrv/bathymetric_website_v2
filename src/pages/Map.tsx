@@ -171,7 +171,15 @@ const Map: React.FC = () => {
   };
 
 return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100%' }}>
+    <div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    height: isMobile ? 'auto' : '100vh',
+    minHeight: '100vh',
+    width: '100%',
+  }}
+>
         {/* Top block */}
         <div
         style={{
@@ -191,21 +199,22 @@ return (
 
         {/* Middle section - Grows to fill space */}
         <div
-        style={{
-            display: 'flex',
-            flexDirection: isMobile ? 'column' : 'row',
-            flex: 1,
-            overflow: 'hidden',
-        }}
+style={{
+  display: 'flex',
+  flexDirection: isMobile ? 'column' : 'row',
+  flex: isMobile ? 'unset' : 1,         // only grow on desktop
+  overflow: isMobile ? 'visible' : 'hidden',
+}}
         >
         <div
             style={{
-            flex: '1 1 60%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            overflow: 'hidden',
-            }}
+                flex: isMobile ? '0 0 50vh' : '1 1 60%',
+                height: isMobile ? '50vh' : 'auto',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                overflow: 'hidden',
+                }}
         >
             {bathy ? (
             <Plot
@@ -229,28 +238,30 @@ return (
 
         <div
             style={{
-            flex: '1 1 40%',
-            padding: '10px',
-            boxSizing: 'border-box',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            overflow: 'hidden',
-            order: isMobile ? 1 : 0,
-            }}
+                flex: isMobile ? '0 0 50vh' : '1 1 40%',
+                height: isMobile ? '50vh' : 'auto',
+                padding: isMobile ? '0rem' : '5px',
+                boxSizing: 'border-box',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                overflow: 'hidden',
+                order: isMobile ? 1 : 0,
+                }}
+
         >
             <img
             src={lockedImage || imageSrc || `${import.meta.env.BASE_URL}ba_images/ba_base.png`}
             alt="Sample Preview"
             style={{
-                width: isMobile ? '100%' : '100%',
-                height: 'auto',
-                maxWidth: '100%',
-                maxHeight: '100%',
-                objectFit: 'contain',
-                border: '2px solid black',
-                boxSizing: 'border-box',
-            }}
+  width: isMobile ? '100%' : '100%',
+  maxWidth: isMobile ? '600px' : '100%',
+  maxHeight: isMobile ? '80%' : '100%',
+  height: 'auto',
+  objectFit: 'contain',
+  border: '2px solid black',
+  boxSizing: 'border-box',
+}}
             />
         </div>
         </div>
