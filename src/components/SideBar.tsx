@@ -12,6 +12,7 @@ const Sidebar: React.FC<SidebarProps> = ({ closeSidebar }) => {
 
   const handleClick = () => {
     if (closeSidebar) closeSidebar();
+        setShowPlots(false);
   };
 
   return (
@@ -29,8 +30,8 @@ const Sidebar: React.FC<SidebarProps> = ({ closeSidebar }) => {
           </button>
           {showPlots && (
             <ul className="submenu">
-              <li><Link to="/Plots/Barium" onClick={handleClick}>Plot 1</Link></li>
-              <li><Link to="/Plots/TempProxy" onClick={handleClick}>Plot 2</Link></li>
+              <li><Link to="/Plots/Barium" onClick={handleClick}>Barium</Link></li>
+              <li><Link to="/Plots/TempProxy" onClick={handleClick}>Temperature Proxies</Link></li>
             </ul>
           )}
         </li>

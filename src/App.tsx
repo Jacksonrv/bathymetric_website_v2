@@ -4,14 +4,12 @@ import Sidebar from './components/SideBar';
 import Map from './pages/Map';
 import Plot1 from './pages/Plots/Barium';
 import Plot2 from './pages/Plots/TempProxy';
-import './App.css';
 import About from './pages/About';
+import './App.css';
 
 import { useState, useEffect } from 'react';
 
-
 function App() {
-  // Track if it's a mobile screen
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -39,7 +37,7 @@ function App() {
             transform: isMobile && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)',
           }}
         >
-          <Sidebar closeSidebar={() => setSidebarOpen(false)} />
+          <Sidebar closeSidebar={isMobile ? () => setSidebarOpen(false) : undefined} />
           {isMobile && (
             <button
               onClick={() => setSidebarOpen(false)}
@@ -59,7 +57,6 @@ function App() {
             </button>
           )}
         </div>
-
 
         {/* Main Content */}
         <div style={{ flex: 1, position: 'relative' }}>
@@ -82,7 +79,6 @@ function App() {
             </button>
           )}
 
-          {/* Routes */}
           <Routes>
             <Route path="/" element={<Navigate to="/About" replace />} />
             <Route path="/About" element={<About />} />
@@ -97,5 +93,3 @@ function App() {
 }
 
 export default App;
-
-

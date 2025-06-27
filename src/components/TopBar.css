@@ -8,7 +8,28 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.topbar h1 {
-  font-size: 1.5rem;
-  margin: 0;
+
+.topbar-left {
+  text-align: left;
+  flex: 1;
+}
+
+.topbar-right {
+  text-align: right;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.email-link {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+  transition: transform 0.2s ease;
+}
+
+.email-link:hover {
+  text-decoration: underline;
 }

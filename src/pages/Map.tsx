@@ -181,8 +181,7 @@ const Map: React.FC = () => {
       >
         <h2>Bathymetric Map</h2>
         <p>
-          Hover over the map to preview sample images
-          {isMobile ? ' below.' : ' on the right.'}
+          {isMobile ? 'Tap on samples to view their position on the plot below. Unfortunately, scrolling is not available on mobile.' : 'Hover over samples to view their position on the plot. Scroll to zoom, left click to rotate, right click to pan.'}
         </p>
       </div>
 

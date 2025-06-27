@@ -1,0 +1,67 @@
+.about-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: sans-serif;
+  color: #333;
+}
+
+.about-container h1 {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Changed from space-between */
+  gap: 2rem;
+  margin-bottom: 4rem;
+  flex-wrap: wrap;
+  text-align: center; /* Can also add this as a fallback */
+}
+
+.reverse {
+  flex-direction: row-reverse;
+}
+
+.about-text {
+  text-align: justify;
+  flex: 1;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  min-width: 250px;
+}
+
+.about-image-wrapper {
+  flex-shrink: 0;
+}
+
+.about-image {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.about-image:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .about-section {
+    flex-direction: column;
+    text-align: justify;
+  }
+
+  .reverse {
+    flex-direction: column;
+  }
+
+  .about-image {
+    margin-bottom: 1rem;
+  }
+}
