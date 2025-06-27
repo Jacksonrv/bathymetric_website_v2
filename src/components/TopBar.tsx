@@ -5,12 +5,12 @@ const TopBar: React.FC = () => {
   return (
     <header className="topbar">
       <div className="topbar-left">
-        <h1>My Master's Thesis</h1>
+        <h1>Controls Over the Geochemistry of Galapagos Stylasterids</h1>
       </div>
       <div className="topbar-right">
         <span>Jackson Vaughn</span>
-        <a href="mailto:jackson@example.com" className="email-link">
-          jackson@example.com
+        <a href="mailto:jackson.vaughn@bristol.ac.uk" className="email-link">
+          jackson.vaughn@bristol.ac.uk
         </a>
       </div>
     </header>

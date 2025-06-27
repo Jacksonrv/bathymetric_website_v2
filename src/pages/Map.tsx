@@ -62,7 +62,7 @@ const Map: React.FC = () => {
       cmin: Math.min(...bathy.c.flat().filter((v) => !isNaN(v))),
       cmax: Math.max(...bathy.c.flat().filter((v) => !isNaN(v))),
       colorbar: {
-        title: { text: 'Chlorophyll' },
+        title: { text: 'Chlorophyll-a (mg/m³)<br>04.07.2011-04.08.2011' },
         x: -0.15,
         len: 0.75,
         tickvals: bathy.colorbar?.tickvals,
@@ -170,60 +170,65 @@ const Map: React.FC = () => {
     });
   };
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
-      <div
+return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100%' }}>
+        {/* Top block */}
+        <div
         style={{
-          padding: '1rem',
-          backgroundColor: '#f8f8f8',
-          borderBottom: '1px solid #ccc',
+            padding: '1rem',
+            backgroundColor: '#f8f8f8',
+            borderBottom: '1px solid #ccc',
+            flexShrink: 0,
         }}
-      >
+        >
         <h2>Bathymetric Map</h2>
         <p>
-          {isMobile ? 'Tap on samples to view their position on the plot below. Unfortunately, scrolling is not available on mobile.' : 'Hover over samples to view their position on the plot. Scroll to zoom, left click to rotate, right click to pan.'}
+            {isMobile
+            ? 'Tap on samples to view their position on the plot below. Unfortunately, scrolling is not available on mobile.'
+            : 'Hover over samples to view their position on the plot. Scroll to zoom, left click to rotate, right click to pan.'}
         </p>
-      </div>
+        </div>
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-          flex: 1,
-          overflow: 'hidden',
-        }}
-      >
+        {/* Middle section - Grows to fill space */}
         <div
-          style={{
+        style={{
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            flex: 1,
+            overflow: 'hidden',
+        }}
+        >
+        <div
+            style={{
             flex: '1 1 60%',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             overflow: 'hidden',
-          }}
+            }}
         >
-          {bathy ? (
+            {bathy ? (
             <Plot
-              data={data}
-              layout={layout}
-              useResizeHandler
-              style={{ width: '100%', height: '100%' }}
-              onInitialized={handleInitialized}
-              config={{
-                    scrollZoom: true,
-                    doubleClick: 'reset+autosize',
-                    responsive: true,
-                    displayModeBar: false,
-                    touchmode: 'rotate'
-                    }}
+                data={data}
+                layout={layout}
+                useResizeHandler
+                style={{ width: '100%', height: '100%' }}
+                onInitialized={handleInitialized}
+                config={{
+                scrollZoom: true,
+                doubleClick: 'reset+autosize',
+                responsive: true,
+                displayModeBar: false,
+                touchmode: 'rotate',
+                }}
             />
-          ) : (
+            ) : (
             <p>Loading bathymetry...</p>
-          )}
+            )}
         </div>
 
         <div
-          style={{
+            style={{
             flex: '1 1 40%',
             padding: '10px',
             boxSizing: 'border-box',
@@ -232,35 +237,50 @@ const Map: React.FC = () => {
             alignItems: 'center',
             overflow: 'hidden',
             order: isMobile ? 1 : 0,
-          }}
+            }}
         >
-          <img
+            <img
             src={lockedImage || imageSrc || `${import.meta.env.BASE_URL}ba_images/ba_base.png`}
             alt="Sample Preview"
             style={{
-              width: isMobile ? '60%' : '100%',
-              height: 'auto',
-              maxWidth: '100%',
-              maxHeight: '100%',
-              objectFit: 'contain',
-              border: '2px solid black',
-              boxSizing: 'border-box',
+                width: isMobile ? '60%' : '100%',
+                height: 'auto',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                objectFit: 'contain',
+                border: '2px solid black',
+                boxSizing: 'border-box',
             }}
-          />
+            />
         </div>
-      </div>
+        </div>
 
-      <div
+        {/* Bottom block */}
+        <div
         style={{
-          padding: '1rem',
-          backgroundColor: '#f0f0f0',
-          borderTop: '1px solid #ccc',
+            padding: '1rem',
+            backgroundColor: '#f0f0f0',
+            borderTop: '1px solid #ccc',
+            flexShrink: 0,
         }}
-      >
-        <p>This is additional information, controls, or status output.</p>
-      </div>
+        >
+        <p>Chlorophyll data: {' '}
+        <a href="https://doi.org/10.5067/AQUA/MODIS/L3M/CHL/2022" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit'}}>
+            NASA MODIS-Aqua (2022);
+        </a>
+        <br></br>
+        Bathymetry data: 
+        <a href="https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ngdc.mgg.dem:11516" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit'}}>
+            NOAA Tsunami DEM for the Galápagos region
+        </a>
+
+
+
+        </p>
+        </div>
     </div>
-  );
+    );
+
 };
 
 export default Map;

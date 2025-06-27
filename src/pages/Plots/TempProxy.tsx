@@ -1,5 +1,5 @@
 const Plot2: React.FC = () => {
-  return <div>This is Plot 2</div>;
+  return <div>Plots...</div>;
 };
 
 export default Plot2;
