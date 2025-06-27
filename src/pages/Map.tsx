@@ -192,8 +192,7 @@ const Map: React.FC = () => {
       >
         <div
           style={{
-            flexBasis: isMobile ? '100%' : '60%',
-            flexShrink: 0,
+            flex: '1 1 60%',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -216,8 +215,7 @@ const Map: React.FC = () => {
 
         <div
           style={{
-            flexBasis: isMobile ? '100%' : '40%',
-            flexShrink: 0,
+            flex: '1 1 40%',
             padding: '10px',
             boxSizing: 'border-box',
             display: 'flex',
@@ -231,7 +229,7 @@ const Map: React.FC = () => {
             src={lockedImage || imageSrc || `${import.meta.env.BASE_URL}ba_images/ba_base.png`}
             alt="Sample Preview"
             style={{
-              width: '100%',
+              width: isMobile ? '60%' : '100%',
               height: 'auto',
               maxWidth: '100%',
               maxHeight: '100%',
