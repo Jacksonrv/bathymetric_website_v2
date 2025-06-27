@@ -133,7 +133,8 @@ const Map: React.FC = () => {
     const getImagePath = (rawPath: string | undefined): string | null => {
       if (!rawPath) return null;
       const trimmed = rawPath.startsWith('/') ? rawPath.slice(1) : rawPath;
-      return `${import.meta.env.BASE_URL}${trimmed}`;
+      const normalized = trimmed.includes('/') ? trimmed : `ba_images/${trimmed}`;
+      return `${import.meta.env.BASE_URL}${normalized}`;
     };
 
     graphDiv.on('plotly_hover', (event: any) => {
