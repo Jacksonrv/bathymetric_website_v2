@@ -206,7 +206,7 @@ const Map: React.FC = () => {
               useResizeHandler
               style={{ width: '100%', height: '100%' }}
               onInitialized={handleInitialized}
-              config={{ scrollZoom: true }}
+              config={{ scrollZoom: true, doubleClick: false, responsive: true, displayModeBar: false, touchmode: 'rotate' }}
             />
           ) : (
             <p>Loading bathymetry...</p>
