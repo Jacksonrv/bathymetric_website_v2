@@ -1,22 +1,20 @@
 .topbar {
-  background-color: #1e1e1e;
-  color: white;
-  padding: 1rem 2rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #333;
+  color: white;
+  flex-wrap: wrap; /* Allows it to wrap on small screens */
 }
 
-
 .topbar-left {
-  text-align: left;
   flex: 1;
+  text-align: left;
 }
 
 .topbar-right {
   text-align: right;
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -31,5 +29,27 @@
 }
 
 .email-link:hover {
+  transform: scale(1.05);
   text-decoration: underline;
+}
+
+/* ✅ Responsive behavior on mobile */
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .topbar-left,
+  .topbar-right {
+    flex: unset;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+
+  .topbar-right {
+    margin-top: 0.5rem;
+  }
 }

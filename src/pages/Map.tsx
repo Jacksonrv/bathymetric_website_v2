@@ -243,7 +243,7 @@ return (
             src={lockedImage || imageSrc || `${import.meta.env.BASE_URL}ba_images/ba_base.png`}
             alt="Sample Preview"
             style={{
-                width: isMobile ? '60%' : '100%',
+                width: isMobile ? '100%' : '100%',
                 height: 'auto',
                 maxWidth: '100%',
                 maxHeight: '100%',
