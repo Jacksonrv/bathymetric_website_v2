@@ -1,5 +1,5 @@
 import React from 'react';
-import './Topbar.css'; // optional
+import './TopBar.css'; // optional
 
 const TopBar: React.FC = () => {
   return (
