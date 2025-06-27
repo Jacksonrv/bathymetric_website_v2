@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import TopBar from './components/TopBar';
 import Sidebar from './components/SideBar';
 import Map from './pages/Map';
@@ -39,7 +39,7 @@ function App() {
               transition: 'transform 0.3s ease-in-out',
             }}
           >
-            <Sidebar />
+            <Sidebar closeSidebar={() => setSidebarOpen(false)} />
             {isMobile && (
               <button
                 onClick={() => setSidebarOpen(false)}
@@ -84,6 +84,7 @@ function App() {
 
           {/* Routes */}
           <Routes>
+            <Route path="/" element={<Navigate to="/About" replace />} />
             <Route path="/About" element={<About />} />
             <Route path="/map" element={<Map />} />
             <Route path="/plots/Barium" element={<Plot1 />} />
