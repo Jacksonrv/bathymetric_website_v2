@@ -12,7 +12,7 @@ const sections = [
         </a>. I hold a Bachelor's of Science from {' '}
         <a href="https://constructor.university/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit'}}>
             Constructor University
-        </a>{' '} (formerly Jacobs University Bremen). I love research, coding, and the ocean. This website is one of my all too many side projects.
+        </a>{' '} (formerly Jacobs University Bremen). I have a passion for research, and love to code. This website is one of my all too many side projects.
         </>
     ),
     image: "/about_images/profile_pic.JPG",
@@ -44,7 +44,8 @@ const sections = [
             R/V Falkor
         </a> cruises in 2023. I am comparing trace element data to hydrographic data to assess the potential of these corals as paleoproxies, and infer biomineralization mechanisms.
         In particular, I am assessing Li/Mg and Sr/Ca as temperature proxies, Ba/Ca as a nutrient proxy, their mineralogy using Mg/Ca, and geochemical differences between species
-        and coral part.
+        and coral part. Click on the stylasterid to view the interactive map showing specimen locations and their Ba/Ca plotted against [Ba]<sub>SW</sub>. Visit the plots section to view
+        supplementary figures.
         </>
     ),
     image: "/about_images/coral_pic.jpg",
@@ -62,7 +63,7 @@ const sections = [
         </a> and {' '}
         <a href="https://ut.ee/en/employee/timmu-kreitsmann" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit'}}>
             Dr. Timmu Kreitsmann
-        </a>. To view my Bachelor's thesis, click the stromatolite.
+        </a>. To read my Bachelor's thesis, click the stromatolite.
         </>
     ),
     image: "/about_images/strom_pic.png",
@@ -73,7 +74,7 @@ const sections = [
   {
     text: (
         <>
-        I am currently in search of a PhD position. If you are located in Germany, and in search of a motivated PhD student in the field of geochemistry, take a look at my{' '}
+        I am currently in search of a PhD position. If you are located in Germany, and in search of a motivated PhD student in the field of geochemistry, consider taking a look at my{' '}
         <a href="/pdfs/CV_website.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit'}}>
             CV
         </a>. 

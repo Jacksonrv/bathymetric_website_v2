@@ -124,12 +124,12 @@ const Map: React.FC = () => {
   const layout = useMemo(() => ({
     autosize: true,
     title: 'Bathymetric Surface with Land Overlay',
-    scene: {
-      xaxis: { title: 'Longitude' },
-      yaxis: { title: 'Latitude' },
-      zaxis: { title: 'Depth (m)' },
-      aspectratio: { x: 1, y: 1, z: 0.2 },
-    },
+        scene: {
+        xaxis: { title: { text: 'Longitude' } },
+        yaxis: { title: { text: 'Latitude' } },
+        zaxis: { title: { text: 'Depth (m)' } },
+        aspectratio: { x: 1, y: 1, z: 0.2 },
+        },
     margin: { l: 0, r: 0, t: 40, b: 0 },
     showlegend: false,
   }), []);
