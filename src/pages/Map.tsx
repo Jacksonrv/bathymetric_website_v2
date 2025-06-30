@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import Plot from 'react-plotly.js';
 
 interface BathyData {
@@ -17,10 +17,11 @@ interface BathyData {
 const Map: React.FC = () => {
   const [bathy, setBathy] = useState<BathyData | null>(null);
   const [samples, setSamples] = useState<any[]>([]);
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [lockedImage, setLockedImage] = useState<string | null>(null);
   const [selectedPointIndex, setSelectedPointIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const defaultImage = `${import.meta.env.BASE_URL}ba_images/ba_base.png`;
 
   useEffect(() => {
     document.title = 'Bathymetric Map';
@@ -144,11 +145,17 @@ const Map: React.FC = () => {
     graphDiv.on('plotly_hover', (event: any) => {
       const rawImage = event.points?.[0]?.customdata?.[0];
       const image = getImagePath(rawImage);
-      if (!lockedImage) setImageSrc(image);
+      if (!lockedImage && image && imageRef.current?.src !== image) {
+        imageRef.current!.src = image;
+      } else if (!lockedImage && !image && imageRef.current?.src !== defaultImage) {
+        imageRef.current!.src = defaultImage;
+      }
     });
 
     graphDiv.on('plotly_unhover', () => {
-      if (!lockedImage) setImageSrc(null);
+      if (!lockedImage && imageRef.current?.src !== defaultImage) {
+        imageRef.current!.src = defaultImage;
+      }
     });
 
     graphDiv.on('plotly_click', (event: any) => {
@@ -162,136 +169,135 @@ const Map: React.FC = () => {
 
       if (image) {
         setLockedImage(image);
+        if (imageRef.current) {
+          imageRef.current.src = image;
+        }
       } else {
         setLockedImage(null);
-        setImageSrc(null);
         setSelectedPointIndex(null);
+        if (imageRef.current) {
+          imageRef.current.src = defaultImage;
+        }
       }
     });
   };
 
-return (
-    <div
-  style={{
-    display: 'flex',
-    flexDirection: 'column',
-    height: isMobile ? 'auto' : '100vh',
-    minHeight: '100vh',
-    width: '100%',
-  }}
->
-        {/* Top block */}
-        <div
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100%' }}>
+      <div
         style={{
-            padding: '1rem',
-            backgroundColor: '#f8f8f8',
-            borderBottom: '1px solid #ccc',
-            flexShrink: 0,
+          padding: '1rem',
+          backgroundColor: '#f8f8f8',
+          borderBottom: '1px solid #ccc',
+          flexShrink: 0,
         }}
-        >
+      >
         <h2>Bathymetric Map</h2>
         <p>
-            {isMobile
+          {isMobile
             ? 'Tap on samples to view their position on the plot below. Unfortunately, scrolling is not available on mobile.'
             : 'Hover over samples to view their position on the plot. Scroll to zoom, left click to rotate, right click to pan.'}
         </p>
-        </div>
+      </div>
 
-        {/* Middle section - Grows to fill space */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          flex: 1,
+          overflow: 'hidden',
+        }}
+      >
         <div
-style={{
-  display: 'flex',
-  flexDirection: isMobile ? 'column' : 'row',
-  flex: isMobile ? 'unset' : 1,         // only grow on desktop
-  overflow: isMobile ? 'visible' : 'hidden',
-}}
+          style={{
+            flex: '1 1 60%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            overflow: 'hidden',
+          }}
         >
-        <div
-            style={{
-                flex: isMobile ? '0 0 50vh' : '1 1 60%',
-                height: isMobile ? '50vh' : 'auto',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                overflow: 'hidden',
-                }}
-        >
-            {bathy ? (
+          {bathy ? (
             <Plot
-                data={data}
-                layout={layout}
-                useResizeHandler
-                style={{ width: '100%', height: '100%' }}
-                onInitialized={handleInitialized}
-                config={{
+              data={data}
+              layout={layout}
+              useResizeHandler
+              style={{ width: '100%', height: '100%' }}
+              onInitialized={handleInitialized}
+              config={{
                 scrollZoom: true,
                 doubleClick: 'reset+autosize',
                 responsive: true,
                 displayModeBar: false,
                 touchmode: 'rotate',
-                }}
+              }}
             />
-            ) : (
+          ) : (
             <p>Loading bathymetry...</p>
-            )}
+          )}
         </div>
 
         <div
-            style={{
-                flex: isMobile ? '0 0 50vh' : '1 1 40%',
-                height: isMobile ? '50vh' : 'auto',
-                padding: isMobile ? '0rem' : '5px',
-                boxSizing: 'border-box',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                overflow: 'hidden',
-                order: isMobile ? 1 : 0,
-                }}
-
+          style={{
+            flex: '1 1 40%',
+            padding: '10px',
+            boxSizing: 'border-box',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            overflow: 'hidden',
+            order: isMobile ? 1 : 0,
+          }}
         >
-            <img
-            src={lockedImage || imageSrc || `${import.meta.env.BASE_URL}ba_images/ba_base.png`}
+          <img
+            ref={imageRef}
+            src={defaultImage}
             alt="Sample Preview"
             style={{
-  width: isMobile ? '100%' : '100%',
-  maxWidth: isMobile ? '600px' : '100%',
-  maxHeight: isMobile ? '80%' : '100%',
-  height: 'auto',
-  objectFit: 'contain',
-  border: '2px solid black',
-  boxSizing: 'border-box',
-}}
-            />
+              width: isMobile ? '60%' : '100%',
+              height: 'auto',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              objectFit: 'contain',
+              border: '2px solid black',
+              boxSizing: 'border-box',
+            }}
+          />
         </div>
-        </div>
+      </div>
 
-        {/* Bottom block */}
-        <div
+      <div
         style={{
-            padding: '1rem',
-            backgroundColor: '#f0f0f0',
-            borderTop: '1px solid #ccc',
-            flexShrink: 0,
+          padding: '1rem',
+          backgroundColor: '#f0f0f0',
+          borderTop: '1px solid #ccc',
+          flexShrink: 0,
         }}
-        >
-        <p>Chlorophyll data: {' '}
-        <a href="https://doi.org/10.5067/AQUA/MODIS/L3M/CHL/2022" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit'}}>
+      >
+        <p>
+          Chlorophyll data:{' '}
+          <a
+            href="https://doi.org/10.5067/AQUA/MODIS/L3M/CHL/2022"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'inherit' }}
+          >
             NASA MODIS-Aqua (2022);
-        </a>
-        <br></br>
-        Bathymetry data: 
-        <a href="https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ngdc.mgg.dem:11516" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit'}}>
+          </a>
+          <br />
+          Bathymetry data:{' '}
+          <a
+            href="https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ngdc.mgg.dem:11516"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'inherit' }}
+          >
             NOAA Tsunami DEM for the Galápagos region
-        </a>
-
-
-
+          </a>
         </p>
-        </div>
+      </div>
     </div>
-    );
-
+  );
 };
 
 export default Map;
