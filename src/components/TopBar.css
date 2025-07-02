@@ -5,7 +5,8 @@
   padding: 1rem 2rem;
   background-color: #333;
   color: white;
-  flex-wrap: wrap; /* Allows it to wrap on small screens */
+  flex-wrap: wrap;
+  position: relative;
 }
 
 .topbar-left {
@@ -14,26 +15,23 @@
 }
 
 .topbar-right {
-  text-align: right;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  text-align: right;
 }
 
-.email-link {
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-  margin-top: 0.3rem;
-  transition: transform 0.2s ease;
+.topbar-image {
+  order: 2;
+  margin-left: 1rem;
 }
 
-.email-link:hover {
-  transform: scale(1.05);
-  text-decoration: underline;
+.logo {
+  height: 100px;
+  width: auto;
 }
 
-/* ✅ Responsive behavior on mobile */
+/* Responsive layout */
 @media (max-width: 768px) {
   .topbar {
     flex-direction: column;
@@ -42,14 +40,24 @@
   }
 
   .topbar-left,
-  .topbar-right {
-    flex: unset;
+  .topbar-right,
+  .topbar-image {
     width: 100%;
     text-align: center;
     align-items: center;
+    justify-content: center;
+  }
+
+  .topbar-image {
+    order: -1; /* Move image above title */
+    margin: 0 0 0.5rem 0;
   }
 
   .topbar-right {
     margin-top: 0.5rem;
+  }
+
+  .logo {
+    height: 100px;
   }
 }

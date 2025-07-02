@@ -124,12 +124,12 @@ const Map: React.FC = () => {
   const layout = useMemo(() => ({
     autosize: true,
     title: 'Bathymetric Surface with Land Overlay',
-        scene: {
-        xaxis: { title: { text: 'Longitude' } },
-        yaxis: { title: { text: 'Latitude' } },
-        zaxis: { title: { text: 'Depth (m)' } },
-        aspectratio: { x: 1, y: 1, z: 0.2 },
-        },
+scene: {
+  xaxis: { title: { text: 'Longitude' } },
+  yaxis: { title: { text: 'Latitude' } },
+  zaxis: { title: { text: 'Depth (m)' } },
+  aspectratio: { x: 1, y: 1, z: 0.2 },
+},
     margin: { l: 0, r: 0, t: 40, b: 0 },
     showlegend: false,
   }), []);
@@ -195,7 +195,7 @@ const Map: React.FC = () => {
         <h2>Bathymetric Map</h2>
         <p>
           {isMobile
-            ? 'Tap on samples to view their position on the plot below. Unfortunately, scrolling is not available on mobile.'
+            ? 'Tap on samples to view their position on the plot below. Unfortunately, zooming is not available on mobile.'
             : 'Hover over samples to view their position on the plot. Scroll to zoom, left click to rotate, right click to pan.'}
         </p>
       </div>
